@@ -9,7 +9,7 @@ function Transaction({transact, user}){
 
     async function handle(){
       try{
-        let response = await fetch("http://localhost:4000/transactions/setStatus", {
+        let response = await fetch("https://silver-alfajores-d2628e.netlify.app/transactions/setStatus", {
           method: "POST",
           headers: {
             "Accept": "application/json",
