@@ -67,7 +67,7 @@ export default function Login({ setNoHeaderFooter }) {
             <InputBox placeholder="Password" required={true} type="password" onChange={handleChange("password")}/>
           </div>
           <div className="login__links__wrapper register__section__forms__content__inputs__one">
-            <Link to="/forgot-paswword" className="login__forgot">
+            <Link to="/forgot-password" className="login__forgot">
               Forgot Password ?
             </Link>
           </div>
