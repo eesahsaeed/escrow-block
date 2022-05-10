@@ -22,7 +22,7 @@ export default function ForgotPassword({ setNoHeaderFooter }) {
   function handleClick(){
     async function handle(){
       try{
-        let response = await fetch("https://escrow-block.herokuapp.com//users/changePassword", {
+        let response = await fetch("https://escrow-block.herokuapp.com/users/changePassword", {
           method: "POST",
           headers: {
             "Accept": "application/json",

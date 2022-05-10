@@ -27,7 +27,7 @@ export default function Login({ setNoHeaderFooter }) {
     event.preventDefault();
     
     async function signIn(data){
-      let user = await fetch("https://escrow-block.herokuapp.com//users/signin", {
+      let user = await fetch("https://escrow-block.herokuapp.com/users/signin", {
         method: "POST",
         headers: {
           "Accept": "application/json",
