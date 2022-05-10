@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Route, Routes } from "react-router";
 import HomeScreen from "./screens/HomeScreen";
@@ -14,6 +15,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ForgotPassword from "./screens/ForgotPassword";
 import Dashboard from "./screens/Dashboard";
+import NewPassword from "./screens/NewPassword";
 
 export default function App() {
   const [noHeaderFooter, setNoHeaderFooter] = useState(false);
@@ -38,8 +40,12 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/forex-training" element={<ForexTraning />} />
         <Route
-          path="/forgot-paswword"
+          path="/forgot-password"
           element={<ForgotPassword setNoHeaderFooter={setNoHeaderFooter} />}
+        />
+        <Route
+          path="/new-password/:email/:token"
+          element={<NewPassword setNoHeaderFooter={setNoHeaderFooter} />}
         />
       </Routes>
       {noHeaderFooter ? null : <Footer />}

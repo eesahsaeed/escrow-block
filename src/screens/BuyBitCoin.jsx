@@ -20,9 +20,8 @@ export default function BuyBitCoin() {
 
   async function handleClick(e){
     e.preventDefault();
-    console.log(values);
 
-    let response = await fetch("https://escrow-block.herokuapp.com/transactions/buyBitcoin", {
+    let response = await fetch("https://escrow-block.herokuapp.com//transactions/buyBitcoin", {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -32,7 +31,10 @@ export default function BuyBitCoin() {
       body: JSON.stringify(values)
     })
 
-    console.log(await response.json());
+    let rs = await response.json()
+    if (rs.success){
+      navigate("/dashboard");
+    }
   }
 
   return (
