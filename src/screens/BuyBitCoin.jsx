@@ -1,27 +1,54 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import sellBictvoinSvg from "../assets/sellBictvoinSvg.svg";
 import bitcoin from "../assets/bitcoin.svg";
 import InputBox from "../components/InputBox";
 import SelectBox from "../components/SelectBox";
+import CurrencyFormat from 'react-currency-format';
+import { Convert } from "easy-currencies";
 
 import authHelper from "../helper/auth-helper";
 
 export default function BuyBitCoin() {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({currency: "USD", paymentAmount: 0});
+  const [symbol, setSymbol] = useState('$');
   const [selectCurrency, setSelectCurrency] = useState(false);
+  const [price, setPrice] = useState(0);
+  const [tempPrice, setTempPrice] = useState(0);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!authHelper.isAuthenticated()){
       navigate("/login");
+    } else {
+      async function getCoin(){
+        let response = await fetch("https://api.coinlore.net/api/tickers/?start=0&limit=1", {
+          method: "GET"
+        })
+
+        let rs = await response.json();
+        setPrice(rs.data[0].price_usd)
+
+        let value = null;
+
+        value = await Convert(rs.data[0].price_usd).from("USD").to(values.currency);
+        setPrice(value)
+        if (values.paymentAmount === 0){
+          setTempPrice(value)
+        } else {
+          setTempPrice(value * values.paymentAmount)
+        }
+      }
+
+      getCoin();
     }
-  }, [])
+  }, [values.currency])
 
   async function handleClick(e){
     e.preventDefault();
-
-    let response = await fetch("https://escrow-block.herokuapp.com/transactions/buyBitcoin", {
+    let response = await fetch("http://localhost:4000/transactions/buyBitcoin", {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -34,6 +61,9 @@ export default function BuyBitCoin() {
     let rs = await response.json()
     if (rs.success){
       navigate("/dashboard");
+    } else {
+      setErrors(rs.errors.errors)
+      //console.log(rs.errors.errors)
     }
   }
 
@@ -62,12 +92,28 @@ export default function BuyBitCoin() {
             // }}
             className="buy__select__input"
           >
-            <img src={bitcoin} alt="bitcoin" className="buy__select__img" />
-            <input
-              type="text"
-              placeholder="Bitcoin"
-              className="buy__text__input"
-            />
+            <CurrencyFormat value={tempPrice} displayType={'text'} thousandSeparator={true} prefix={symbol} renderText={value => (
+              <>
+                <img src={bitcoin} alt="bitcoin" className="buy__select__img" />
+                
+                <input
+                  type="number"
+                  required={true}
+                  placeholder="Bitcoin"
+                  className="buy__text__input"
+                  onChange={(e) => {
+                    setValues({...values, paymentAmount: e.target.value});
+                    if (e.target.value > 0){
+                      setTempPrice(price * e.target.value)
+                    }else if (e.target.value === ""){
+                      setTempPrice(price)
+                    }
+                  }}
+                  min={0}
+                />
+              </>
+            )} />
+            
             {/* {select ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +155,8 @@ export default function BuyBitCoin() {
             ) : null} */}
           </div>
           <div className="bitcoin__value__card">
-            <span>1 BTC = </span> 16,746,442.19 NGN{" "}
+            <span>1 BTC = </span> 
+            <CurrencyFormat value={price} displayType={'text'} thousandSeparator={true} prefix={symbol} renderText={value => <span style={{color: "blue"}}>{value}</span>} />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25.721"
@@ -151,7 +198,7 @@ export default function BuyBitCoin() {
               className="start__up__container__form__input__box"
             >
               <div className="start__up__container__form__input__box__label">
-                Get Paid Via
+                Pay Via
               </div>
               
               <div>
@@ -180,15 +227,25 @@ export default function BuyBitCoin() {
                 I have (Amount to Change)
               </div>
               <div className="start__up__container__form__input__box__content">
-                <input
-                  type="number"
-                  required={true}
-                  placeholder="Any Payment"
-                  className="start__up__container__form__input__box__field"
-                  onChange={(e) => {
-                    setValues({...values, paymentAmount: e.target.value});
-                  }}
-                />
+                <CurrencyFormat value={tempPrice} displayType={'text'} thousandSeparator={true} prefix={symbol} renderText={value => (
+                  <>
+                    <input
+                      type="text"
+                      placeholder="Bitcoin"
+                      className="start__up__container__form__input__box__field"
+                      value={value}
+                      onChange={(e) => {
+                        setValues({...values, paymentAmount: e.target.value});
+                        if (e.target.value > 0){
+                          setTempPrice(price * e.target.value)
+                        }else if (e.target.value === ""){
+                          setTempPrice(price)
+                        }
+                      }}
+                      readOnly
+                    />
+                  </>
+                )} />
                 <button
                   onClick={() => {
                     selectCurrency
@@ -197,9 +254,9 @@ export default function BuyBitCoin() {
                   }}
                   className="input__btn"
                 >
-                  <span>$</span>
-                  <span>Є</span>
-                  <span>$</span>
+                  <span>$ </span>
+                  <span>Є </span>
+                  <span>₦</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -207,10 +264,10 @@ export default function BuyBitCoin() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-align-justify"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-align-justify"
                   >
                     <line x1="21" y1="10" x2="3" y2="10"></line>
                     <line x1="21" y1="6" x2="3" y2="6"></line>
@@ -223,37 +280,40 @@ export default function BuyBitCoin() {
                 <div className="payments__entry__wrapper">
                   <button
                     onClick={() => {
-                      setSelectCurrency(false);
                       setValues({...values, currency: "USD"});
+                      setSymbol("$")
                     }}
                     className="payments__entry"
+                    style={values.currency === "USD" ? {backgroundColor: "#f8c430"} : {}}
                   >
                     USD
                   </button>
                   <button
                     onClick={() => {
-                      setSelectCurrency(false);
-                      setValues({...values, currency: "EURO"});
+                      setValues({...values, currency: "EUR"});
+                      setSymbol("Є")
                     }}
                     className="payments__entry"
+                    style={values.currency === "EUR" ? {backgroundColor: "#f8c430"} : {}}
                   >
-                    EURO
+                    EUR
                   </button>
                   <button
                     onClick={() => {
-                      setSelectCurrency(false);
-                      setValues({...values, currency: "NAIRA"});
+                      setValues({...values, currency: "NGN"});
+                      setSymbol("₦")
                     }}
                     className="payments__entry"
+                    style={values.currency === "NGN" ? {backgroundColor: "#f8c430"} : {}}
                   >
-                    Naira
+                    NGN
                   </button>
                 </div>
               ) : null}
             </div>
           </div>
           <div className="register__section__forms__content__inputs__one">
-            <InputBox placeholder="Wallet Address" type="text" onChange={(e) => {
+            <InputBox placeholder="Wallet Address" type="text" name="walletAddress" errors={errors} onChange={(e) => {
               setValues({...values, walletAddress: e.target.value});
             }}/>
           </div>

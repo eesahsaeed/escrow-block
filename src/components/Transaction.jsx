@@ -9,7 +9,7 @@ function Transaction({transact, user}){
 
     async function handle(){
       try{
-        let response = await fetch("https://escrow-block.herokuapp.com/transactions/setStatus", {
+        let response = await fetch("http://localhost:4000/transactions/setStatus", {
           method: "POST",
           headers: {
             "Accept": "application/json",

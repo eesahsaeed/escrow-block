@@ -7,8 +7,8 @@ import Register from "./screens/Register";
 import RegisterIndividual from "./screens/RegisterIndividual";
 import Login from "./screens/Login";
 import AboutUs from "./screens/AboutUs";
-import SellBitCoin from "./screens/SellBitCoin";
 import BuyBitCoin from "./screens/BuyBitCoin";
+import SellBitCoin from "./screens/SellBitCoin";
 import TradeForMe from "./screens/TradeForMe";
 import ForexTraning from "./screens/ForexTraning";
 import Header from "./components/Header";
@@ -35,8 +35,8 @@ export default function App() {
         />
         <Route path="/trade-for-me" element={<TradeForMe />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/sell-bitcoin" element={<BuyBitCoin />} />
-        <Route path="/buy-bitcoin" element={<SellBitCoin />} />
+        <Route path="/buy-bitcoin" element={<BuyBitCoin />} />
+        <Route path="/sell-bitcoin" element={<SellBitCoin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/forex-training" element={<ForexTraning />} />
         <Route

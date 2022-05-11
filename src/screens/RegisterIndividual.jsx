@@ -7,6 +7,9 @@ import axios from "axios";
 import SelectBox from "../components/SelectBox";
 
 export default function RegisterIndividual() {
+  const [errors, setErrors] = useState({});
+  const [exist, setExist] = useState({});
+  const [wrong, setWrong] = useState("");
   const [values, setValues] = useState({
     userName: "",
     firstName: "",
@@ -129,8 +132,8 @@ export default function RegisterIndividual() {
 
     async function register(user){
       try{
-        //https://escrow-block.herokuapp.com/users/register
-       let response = await fetch("https://escrow-block.herokuapp.com/users/register", {
+        //http://localhost:4000/users/register
+       let response = await fetch("http://localhost:4000/users/register", {
           method: "POST",
           headers: {
             "Accept": "application/json"
@@ -140,15 +143,21 @@ export default function RegisterIndividual() {
 
         return await response.json();
       } catch(err){
-        console.log(err);
+        console.log(err)
       }
     }
 
     register(userData).then(data => {
+      console.log(data);
       if (data.success){
-        navigate("/login");
-      } else{
+        navigate("/login")
+      } else if (data.errors){
+        setErrors(data.errors)
+      } else if (data.keyValue){
+        setExist(data)
         console.log(data);
+      } else {
+        setWrong(data.error)
       }
     }).catch(err => {
       console.log(err);
@@ -161,7 +170,7 @@ export default function RegisterIndividual() {
     };
 
     axios.post(
-      "https://escrow-block.herokuapp.com//users/register",
+      "http://localhost:4000//users/register",
       {body: userData},
       config
     ).then((response) => {
@@ -205,6 +214,22 @@ export default function RegisterIndividual() {
             contact us at contact@escrowblockhk.com. Please note the minimum
             deposit or withdrawal size is $10,000
           </div>
+          {errors && Object.keys(errors).length !== 0 && <div style={{
+            color: "",
+            border: "1px solid red",
+            width: "85%",
+            paddingTop: "10px",
+            backgroundColor: "#ff8080",
+            borderRadius: "5px"
+          }}><h3>Error Occurred {
+            exist.keyValue && exist.keyValue.userName ? <span>: User Name exist <Link to="/login">Login</Link></span> : ""
+          }
+          {
+            exist.keyValue && exist.keyValue.email ? <span>: Email Address exist <Link to="/login">Login</Link></span> : ""
+          } 
+          {
+          wrong && wrong
+          }</h3></div>}
         </div>
       </div>
       <form onSubmit={SignUp}
@@ -217,6 +242,7 @@ export default function RegisterIndividual() {
             required={true}
             // value={username}
             type="text"
+            errors={errors}
             onChange={onChangeHandler}
           />
         </div>
@@ -228,6 +254,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -237,6 +264,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -247,6 +275,7 @@ export default function RegisterIndividual() {
             required={true}
             type="email"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__two">
@@ -260,6 +289,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -268,6 +298,7 @@ export default function RegisterIndividual() {
               placeholder="Alias/Other/Former Name(s)(if any):"
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -280,6 +311,7 @@ export default function RegisterIndividual() {
             option2={<option value="Female" />}
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div
@@ -293,6 +325,7 @@ export default function RegisterIndividual() {
             required={true}
             type="date"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__two">
@@ -307,6 +340,7 @@ export default function RegisterIndividual() {
               option4={<option value="South America" />}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -316,6 +350,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -327,6 +362,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -335,6 +371,7 @@ export default function RegisterIndividual() {
               placeholder="Telegram (If Any)"
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -345,6 +382,7 @@ export default function RegisterIndividual() {
             required={true}
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__two">
@@ -355,6 +393,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -364,6 +403,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -375,6 +415,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -384,6 +425,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -393,6 +435,7 @@ export default function RegisterIndividual() {
             placeholder="Social Security Number (if applicable):"
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__two">
@@ -404,6 +447,7 @@ export default function RegisterIndividual() {
               variant="select"
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -414,6 +458,7 @@ export default function RegisterIndividual() {
               variant="select"
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -426,6 +471,7 @@ export default function RegisterIndividual() {
               variant="select"
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -435,6 +481,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -446,6 +493,7 @@ export default function RegisterIndividual() {
             variant="select"
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -455,6 +503,7 @@ export default function RegisterIndividual() {
             required={true}
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -465,6 +514,7 @@ export default function RegisterIndividual() {
             variant="select"
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__two">
@@ -475,6 +525,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -484,6 +535,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -495,6 +547,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -504,6 +557,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -515,6 +569,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
@@ -524,6 +579,7 @@ export default function RegisterIndividual() {
               required={true}
               type="text"
               onChange={onChangeHandler}
+              errors={errors}
             />
           </div>
         </div>
@@ -535,6 +591,7 @@ export default function RegisterIndividual() {
             variant="select"
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -545,6 +602,7 @@ export default function RegisterIndividual() {
             variant="select"
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -555,6 +613,7 @@ export default function RegisterIndividual() {
             variant="select"
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -564,6 +623,7 @@ export default function RegisterIndividual() {
             required={true}
             type="text"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -576,6 +636,7 @@ export default function RegisterIndividual() {
             required={true}
             type="file"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -586,6 +647,7 @@ export default function RegisterIndividual() {
             required={true}
             type="file"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -596,6 +658,7 @@ export default function RegisterIndividual() {
             required={true}
             type="file"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -608,6 +671,7 @@ export default function RegisterIndividual() {
             required={true}
             type="file"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <div className="register__section__forms__content__inputs__one">
@@ -617,6 +681,7 @@ export default function RegisterIndividual() {
             required={true}
             type="password"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>{" "}
         <div className="register__section__forms__content__inputs__one">
@@ -626,6 +691,7 @@ export default function RegisterIndividual() {
             required={true}
             type="password"
             onChange={onChangeHandler}
+            errors={errors}
           />
         </div>
         <input

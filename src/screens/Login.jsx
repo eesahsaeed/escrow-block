@@ -5,6 +5,8 @@ import InputBox from "../components/InputBox";
 import loginSvg from "../assets/loginSvg.svg";
 
 export default function Login({ setNoHeaderFooter }) {
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     setNoHeaderFooter(true);
     return () => {
@@ -27,7 +29,7 @@ export default function Login({ setNoHeaderFooter }) {
     event.preventDefault();
     
     async function signIn(data){
-      let user = await fetch("https://escrow-block.herokuapp.com/users/signin", {
+      let user = await fetch("http://localhost:4000/users/signin", {
         method: "POST",
         headers: {
           "Accept": "application/json",
@@ -61,10 +63,18 @@ export default function Login({ setNoHeaderFooter }) {
               required={true}
               type="text"
               onChange={handleChange("email")}
+              name="email"
+              errors={errors}
             />
           </div>
           <div className="register__section__forms__content__inputs__one">
-            <InputBox placeholder="Password" required={true} type="password" onChange={handleChange("password")}/>
+            <InputBox 
+              name="password"
+              errors={errors} 
+              placeholder="Password" 
+              required={true} 
+              type="password" 
+              onChange={handleChange("password")}/>
           </div>
           <div className="login__links__wrapper register__section__forms__content__inputs__one">
             <Link to="/forgot-password" className="login__forgot">
@@ -75,14 +85,13 @@ export default function Login({ setNoHeaderFooter }) {
             style={{ marginTop: 50 }}
             className="register__section__forms__content__btns"
           >
-            <Link
+            <button
               style={{ padding: "1em 8em" }}
-              to="/dashboard"
               onClick={handleClick}
               className="button__secondary"
             >
               Login
-            </Link>
+            </button>
             <div style={{ color: "#000000" }} className="new__to__login">
               New on Escrowblockh?
               <span>

@@ -11,7 +11,8 @@ export default function SelectBox({
   option2,
   option3,
   option4,
-  onChange
+  onChange,
+  errors
 }) {
   return (
     <div className="start__up__container__form__input__box">
@@ -33,7 +34,8 @@ export default function SelectBox({
           name={name}
           placeholder={placeholder}
           className="start__up__container__form__input__box__field"
-          onChange={onChange}/>
+          onChange={onChange}
+          style={errors[name] ? {borderColor: "red"} : {}}/>
         <datalist id={name}>
           {option1}
           {option2}
@@ -41,6 +43,7 @@ export default function SelectBox({
           {option4}
         </datalist>
       </div>
+      <p style={{color: "red"}}>{errors[name] && errors[name].message}</p>
     </div>
   );
 }

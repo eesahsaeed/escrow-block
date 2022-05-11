@@ -43,13 +43,13 @@ function NavLinkDropDown({ label, path, defaultChecked }) {
       <div className="header__container__nav__link__content">{label}</div>
       <div className="header__container__nav__link__content__dropdown">
         <Link
-          to="/sell-bitcoin"
+          to="/buy-bitcoin"
           className="header__container__nav__link__content__dropdown__entry"
         >
           Buy Bitcoin
         </Link>
         <Link
-          to="/buy-bitcoin"
+          to="/sell-bitcoin"
           className="header__container__nav__link__content__dropdown__entry"
         >
           Sell Bitcoin
@@ -130,7 +130,7 @@ export default function Header() {
             <NavLink label="Connect Wallet" path="/login" />
             {authHelper.isAuthenticated() ? (
               <>
-                <NavLink label="Buy Bitcoin" path="/sell-bitcoin" />
+                <NavLink label="Buy Bitcoin" path="/buy-bitcoin" />
                 <NavLink label="Log Out" path="/logout"/>
                 <NavLink label={`${authHelper.isAuthenticated().userName}`} path="/dashboard" />
               </>
