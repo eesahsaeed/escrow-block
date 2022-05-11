@@ -8,7 +8,7 @@ import SelectBox from "../components/SelectBox";
 
 export default function RegisterIndividual() {
   const [errors, setErrors] = useState({});
-  const [exist, setExist] = useState({});
+  const [exist, setExist] = useState(null);
   const [wrong, setWrong] = useState("");
   const [values, setValues] = useState({
     userName: "",
@@ -132,7 +132,7 @@ export default function RegisterIndividual() {
 
     async function register(user){
       try{
-        //http://localhost:4000/users/register
+        //https://escrow-block.herokuapp.com/users/register
        let response = await fetch("https://escrow-block.herokuapp.com/users/register", {
           method: "POST",
           headers: {
@@ -153,7 +153,7 @@ export default function RegisterIndividual() {
         navigate("/login")
       } else if (data.errors){
         setErrors(data.errors)
-      } else if (data.keyValue){
+      } else if (data.message){
         setExist(data)
         console.log(data);
       } else {
@@ -170,7 +170,7 @@ export default function RegisterIndividual() {
     };
 
     axios.post(
-      "http://localhost:4000//users/register",
+      "https://escrow-block.herokuapp.com//users/register",
       {body: userData},
       config
     ).then((response) => {
@@ -221,14 +221,11 @@ export default function RegisterIndividual() {
             paddingTop: "10px",
             backgroundColor: "#ff8080",
             borderRadius: "5px"
-          }}><h3>Error Occurred {
-            exist.keyValue && exist.keyValue.userName ? <span>: User Name exist <Link to="/login">Login</Link></span> : ""
+          }}><h3>Error Occurred{
+            exist && (<span>: {exist.message} <Link to="/login">Login</Link></span>)
           }
           {
-            exist.keyValue && exist.keyValue.email ? <span>: Email Address exist <Link to="/login">Login</Link></span> : ""
-          } 
-          {
-          wrong && wrong
+            wrong && wrong
           }</h3></div>}
         </div>
       </div>

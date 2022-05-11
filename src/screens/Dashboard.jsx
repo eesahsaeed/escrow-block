@@ -72,6 +72,9 @@ function TransactionEntry() {
             Amount
           </div>
           <div className="register__section__forms__content__history__heading__entry">
+            Type
+          </div>
+          <div className="register__section__forms__content__history__heading__entry">
             Status
           </div>
         </div>

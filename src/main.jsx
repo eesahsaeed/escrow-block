@@ -4,15 +4,17 @@ import "./index.css";
 import App from "./App";
 import { HashRouter } from "react-router-dom";
 
-fetch("http://localhost:4000/users/demo", {
-  method: "GET",
-  headers: {
-    "Accept": "application/json"
-  }
-}).then(rs => {
-  let d = rs.json()
-  console.log(d);
-});
+if (!sessionStorage.getItem("fetch")){
+  sessionStorage.setItem("fetch", JSON.stringify({fetch: true}));
+  fetch("https://escrow-block.herokuapp.com/users/demo", {
+    method: "GET",
+    headers: {
+      "Accept": "application/json"
+    }
+  }).then(rs => {
+    let d = rs.json();
+  });
+}
 
 ReactDOM.render(
   <React.StrictMode>

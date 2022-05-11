@@ -49,6 +49,9 @@ function Transaction({transact, user}){
           {transaction.paymentAmount}
         </div>
         <div className="register__section__forms__content__history__details__entry">
+          {transaction.transactionType}
+        </div>
+        <div className="register__section__forms__content__history__details__entry">
           {transaction.status}
         </div>
       </div>

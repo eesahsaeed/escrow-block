@@ -104,8 +104,8 @@ export default function HomeScreen() {
         }}
         gradient={false}
       >
-        {Data.map((item) => (
-          <SwipperCard symbol={item.symbol} price={item.price} />
+        {Data.map((item, i) => (
+          <SwipperCard symbol={item.symbol} price={item.price} key={i}/>
         ))}
       </Marquee>
       <div className="otc__trading__section">

@@ -31,11 +31,9 @@ export default function SellBitCoin() {
         let rs = await response.json();
         setPrice(rs.data[0].price_usd)
 
-        let value = null;
-
-        value = await Convert(rs.data[0].price_usd).from("USD").to(values.currency);
+        let value = await Convert(rs.data[0].price_usd).from("USD").to(values.currency);
         setPrice(value)
-        if (values.paymentAmount === 0){
+        if (values.paymentAmount <= 0){
           setTempPrice(value)
         } else {
           setTempPrice(value * values.paymentAmount)

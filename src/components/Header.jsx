@@ -127,15 +127,18 @@ export default function Header() {
           <div className="header__container__nav__links">
             <NavLink label="About Us" path="/about-us" />
             <NavLinkDropDown label="Our Services" path="/service" />
-            <NavLink label="Connect Wallet" path="/login" />
             {authHelper.isAuthenticated() ? (
               <>
+                <NavLink label="Sell BitCoin" path="/sell-bitcoin" />
                 <NavLink label="Buy Bitcoin" path="/buy-bitcoin" />
                 <NavLink label="Log Out" path="/logout"/>
                 <NavLink label={`${authHelper.isAuthenticated().userName}`} path="/dashboard" />
               </>
             ) : (
               <>
+                      
+                <NavLink label="Trade Forex For Me" path="/trade-for-me"/>
+                <NavLink label="Forex Training" path="/forex-training"/>
                 <NavLink label="Register" path="/register" />
                 <NavLink label="Login" path="/login" />
               </>
