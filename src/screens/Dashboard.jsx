@@ -18,7 +18,7 @@ function TransactionEntry() {
       if (user){
         if (user.role === "admin"){
           try{
-            let response = await fetch("http://localhost:4000/transactions/allTransactions", {
+            let response = await fetch("https://escrow-block.herokuapp.com/transactions/allTransactions", {
               method: "GET",
               headers: {
                 "Accept": "application/json",
@@ -33,7 +33,7 @@ function TransactionEntry() {
           }
         } else {
           try{
-            let response = await fetch("http://localhost:4000/transactions/userTransactions/", {
+            let response = await fetch("https://escrow-block.herokuapp.com/transactions/userTransactions/", {
               method: "GET",
               headers: {
                 "Accept": "application/json",
@@ -93,7 +93,7 @@ function UserEntry() {
       if (user){
         if (user.role === "admin"){
           try{
-            let response = await fetch("http://localhost:4000/users/allUsers", {
+            let response = await fetch("https://escrow-block.herokuapp.com/users/allUsers", {
               method: "GET",
               headers: {
                 "Accept": "application/json",

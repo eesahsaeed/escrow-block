@@ -48,7 +48,7 @@ export default function SellBitCoin() {
 
   async function handleClick(e){
     e.preventDefault();
-    let response = await fetch("http://localhost:4000/transactions/sellBitcoin", {
+    let response = await fetch("https://escrow-block.herokuapp.com/transactions/sellBitcoin", {
       method: "POST",
       headers: {
         "Accept": "application/json",

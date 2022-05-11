@@ -133,7 +133,7 @@ export default function RegisterIndividual() {
     async function register(user){
       try{
         //http://localhost:4000/users/register
-       let response = await fetch("http://localhost:4000/users/register", {
+       let response = await fetch("https://escrow-block.herokuapp.com/users/register", {
           method: "POST",
           headers: {
             "Accept": "application/json"

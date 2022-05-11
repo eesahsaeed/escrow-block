@@ -21,7 +21,7 @@ export default function ForgotPassword({ setNoHeaderFooter }) {
   function handleClick(){
     async function handle(){
       try{
-        let response = await fetch("http://localhost:4000/users/forgotPassword", {
+        let response = await fetch("https://escrow-block.herokuapp.com/users/forgotPassword", {
           method: "POST",
           headers: {
             "Accept": "application/json",
@@ -45,7 +45,7 @@ export default function ForgotPassword({ setNoHeaderFooter }) {
   function handleToken(){
     async function handle(){
       try{
-        let response = await fetch("http://localhost:4000/users/verifyToken", {
+        let response = await fetch("https://escrow-block.herokuapp.com/users/verifyToken", {
           method: "POST",
           headers: {
             "Accept": "application/json",
