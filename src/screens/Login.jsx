@@ -1,6 +1,6 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import waveBG from "../assets/waveBg.svg";
 import InputBox from "../components/InputBox";
 import loginSvg from "../assets/loginSvg.svg";
 
@@ -42,10 +42,21 @@ export default function Login({ setNoHeaderFooter }) {
     }
 
     signIn(values).then(user => {
-      localStorage.setItem("user", JSON.stringify(user));
-      navigate("/dashboard");
+      if (user.error){
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        setErrors(user)
+      } else {
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/dashboard");
+      }
     }).catch(err => {
-      console.log(err);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     })
   }
 
@@ -54,7 +65,17 @@ export default function Login({ setNoHeaderFooter }) {
       <div action="" className="login__container">
         <form action="" className="login__container__left">
           <div className="login__container__left__heading">
-            Log In With Escroblockh
+            Log In With Escroblock
+          </div>
+          <div className="register__section__forms__content">
+            {errors && Object.keys(errors).length !== 0 && <div style={{
+              color: "",
+              border: "1px solid red",
+              width: "85%",
+              paddingTop: "10px",
+              backgroundColor: "#ff8080",
+              borderRadius: "5px"
+            }}><h3>{errors.error}</h3></div>}
           </div>
 
           <div className="register__section__forms__content__inputs__one">

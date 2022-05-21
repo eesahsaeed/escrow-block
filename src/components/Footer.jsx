@@ -239,7 +239,7 @@ export default function Footer() {
                 fill="#ffffff"
               />
             </svg>
-            John@gmail.com
+            info@escrow-block.com
           </a>
           <a href="" className="footer_maincontainercontententrywrapper_entry">
             <svg
@@ -268,7 +268,7 @@ export default function Footer() {
                 fill="#ffffff"
               />
             </svg>
-            Area, Country
+            Texas, USA.
           </a>
         </div>
       </div>

@@ -71,7 +71,7 @@ export default function Register({ setNoHeaderFooter }) {
             className="register__section__forms__content__btns"
           >
             <div style={{ color: "#000000" }} className="new__to__login">
-              Already on Escrowblockh?
+              Already on Escrowblock?
               <span>
                 <Link to="/login"> Click here to Login</Link>
               </span>

@@ -1,20 +1,25 @@
-import React from "react";
 
-export default function SelectBox({
+// All countries
+// length 252
+
+import React, {useState} from "react";
+import PI from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
+const PhoneInput = PI.default ? PI.default : PI;
+
+export default function InputBox({
   label,
   placeholder,
   required,
   description,
   type,
-  name,
-  option1,
-  option2,
-  option3,
-  option4,
   onChange,
+  name,
   value,
   errors
 }) {
+
   return (
     <div className="start__up__container__form__input__box">
       <div className="start__up__container__form__input__box__label">
@@ -29,24 +34,17 @@ export default function SelectBox({
         </div>
       ) : null}
       <div className="start__up__container__form__input__box__content">
-        <input
-          list={name}
-          //   id="ice-cream-choice"
-          name={name}
-          type={type}
-          placeholder={placeholder}
+        <PhoneInput 
+          inputProps={{
+            name: name
+          }}
+          country={"af"}
           className="start__up__container__form__input__box__field"
-          onChange={onChange}
-          value={value}
-          style={errors[name] ? {borderColor: "red"} : {}}/>
-        <datalist id={name}>
-          {option1}
-          {option2}
-          {option3}
-          {option4}
-        </datalist>
+          onChange={(v, c, e) => onChange(e)}
+          countryCodeEditable={false}/>
       </div>
       <p style={{color: "red"}}>{errors[name] && errors[name].message}</p>
     </div>
   );
 }
+

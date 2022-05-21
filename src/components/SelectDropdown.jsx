@@ -1,3 +1,4 @@
+
 import React from "react";
 
 export default function SelectBox({
@@ -7,13 +8,9 @@ export default function SelectBox({
   description,
   type,
   name,
-  option1,
-  option2,
-  option3,
-  option4,
   onChange,
-  value,
-  errors
+  errors,
+  children
 }) {
   return (
     <div className="start__up__container__form__input__box">
@@ -29,22 +26,18 @@ export default function SelectBox({
         </div>
       ) : null}
       <div className="start__up__container__form__input__box__content">
-        <input
+        <select
           list={name}
           //   id="ice-cream-choice"
-          name={name}
           type={type}
+          name={name}
           placeholder={placeholder}
           className="start__up__container__form__input__box__field"
           onChange={onChange}
-          value={value}
-          style={errors[name] ? {borderColor: "red"} : {}}/>
-        <datalist id={name}>
-          {option1}
-          {option2}
-          {option3}
-          {option4}
-        </datalist>
+          style={errors[name] ? {borderColor: "red"} : {}}
+        >
+          {children}
+        </select>
       </div>
       <p style={{color: "red"}}>{errors[name] && errors[name].message}</p>
     </div>

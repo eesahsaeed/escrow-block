@@ -2,9 +2,12 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import waveBG from "../assets/waveBg.svg";
 import InputBox from "../components/InputBox";
+import PasswordInputBox from "../components/PasswordInputBox";
 import { useState } from "react";
 import axios from "axios";
 import SelectBox from "../components/SelectBox";
+import SelectDropdown from "../components/SelectDropdown";
+import PhoneInput from "../components/PhoneInput";
 
 export default function RegisterIndividual() {
   const [errors, setErrors] = useState({});
@@ -15,41 +18,17 @@ export default function RegisterIndividual() {
     firstName: "",
     lastName: "",
     email: "",
-    preferredCommunication: "",
-    aliasName: "",
-    gender: "",
-    date: "",
+    preferredCommunication: "Telegram",
+    gender: "Male",
     countryOfOrigin: "",
-    passportOrId: "",
-    mobileNumber: "",
+    phoneNumber: "",
+    dateOfBirth: "",
     telegram: "",
-    streetAddress: "",
-    city: "",
-    country: "",
-    state: "",
-    zipCode: "",
-    socialSecurityNumber: "",
-    grossAnnualIncome: "",
-    employmentStatus: "",
-    occupation: "",
-    companyName: "",
-    sourceOfFunds: "",
+    employmentStatus: "Employed",
+    occupation: "Not Applicable",
     purposeOfEscrowAccount: "",
+    sourceOfFunds: "Retained Earnings",
     expectedTransactionSizePerTrade: "",
-    accountHolderName: "",
-    fullBeneficiaryAddress: "",
-    bankName: "",
-    fullBankAddress: "", 
-    accountNumber: "",
-    routingNumber: "",
-    intermediaryBank: "",
-    yearsOfExperience: "",
-    tradingAccount: "",
-    hearAboutUs: "",
-    passportIdCopy: "",
-    proofOfAddress: "",
-    bankStatement: "",
-    photo: "",
     password: "",
     confirmPassword: ""
   })
@@ -91,39 +70,16 @@ export default function RegisterIndividual() {
     values.lastName && userData.append("lastName", values.lastName);
     values.email && userData.append("email", values.email);
     values.preferredCommunication && userData.append("preferredCommunication", values.preferredCommunication);
-    values.aliasName && userData.append("aliasName", values.aliasName);
     values.gender && userData.append("gender", values.gender);
-    values.date && userData.append("date", values.date);
     values.countryOfOrigin && userData.append("countryOfOrigin", values.countryOfOrigin);
-    values.passportOrId && userData.append("passportOrId", values.passportOrId);
-    values.mobileNumber && userData.append("mobileNumber", values.mobileNumber);
-    values.telegram && userData.append("telegram", values.telegram);
-    values.streetAddress && userData.append("streetAddress", values.streetAddress);
-    values.city && userData.append("city", values.city);
-    values.country && userData.append("country", values.country);
-    values.state && userData.append("state", values.state);
-    values.zipCode && userData.append("zipCode", values.zipCode);
-    values.socialSecurityNumber && userData.append("socialSecurityNumber", values.socialSecurityNumber);
-    values.grossAnnualIncome && userData.append("grossAnnualIncome", values.grossAnnualIncome);
-    values.employmentStatus && userData.append("employmentStatus", values.employmentStatus);
+    values.phoneNumber && userData.append("phoneNumber", values.phoneNumber);
+    values.dateOfBirth && userData.append("dateOfBirth", values.dateOfBirth);
     values.occupation && userData.append("occupation", values.occupation);
-    values.companyName && userData.append("companyName", values.companyName);
+    values.employmentStatus && userData.append("employmentStatus", values.employmentStatus);
+    values.telegram && userData.append("telegram", values.telegram);
     values.sourceOfFunds && userData.append("sourceOfFunds", values.sourceOfFunds);
     values.purposeOfEscrowAccount && userData.append("purposeOfEscrowAccount", values.purposeOfEscrowAccount);
     values.expectedTransactionSizePerTrade && userData.append("expectedTransactionSizePerTrade", values.expectedTransactionSizePerTrade);
-    values.accountHolderName && userData.append("accountHolderName", values.accountHolderName);
-    values.fullBeneficiaryAddress && userData.append("fullBeneficiaryAddress", values.fullBeneficiaryAddress);
-    values.fullBankAddress && userData.append("fullBankAddress", values.fullBankAddress);
-    values.accountNumber && userData.append("accountNumber", values.accountNumber);
-    values.routingNumber && userData.append("routingNumber", values.routingNumber);
-    values.intermediaryBank && userData.append("intermediaryBank", values.intermediaryBank);
-    values.yearsOfExperience && userData.append("yearsOfExperience", values.yearsOfExperience);
-    values.tradingAccount && userData.append("tradingAccount", values.tradingAccount);
-    values.hearAboutUs && userData.append("hearAboutUs", values.hearAboutUs);
-    values.passportIdCopy && userData.append("passportIdCopy", values.passportIdCopy);
-    values.proofOfAddress && userData.append("proofOfAddress", values.proofOfAddress);
-    values.bankStatement && userData.append("bankStatement", values.bankStatement);
-    values.photo && userData.append("photo", values.photo);
     values.password && userData.append("password", values.password);
     values.confirmPassword && userData.append("confirmPassword", values.confirmPassword);
 
@@ -143,24 +99,41 @@ export default function RegisterIndividual() {
 
         return await response.json();
       } catch(err){
-        console.log(err)
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
       }
     }
 
     register(userData).then(data => {
       console.log(data);
       if (data.success){
-        navigate("/login")
+        navigate("/welcome/" + values.firstName);
       } else if (data.errors){
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         setErrors(data.errors)
       } else if (data.message){
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         setExist(data)
-        console.log(data);
       } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         setWrong(data.error)
       }
     }).catch(err => {
-      console.log(err);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     })
 
     /*const config = {
@@ -211,7 +184,7 @@ export default function RegisterIndividual() {
             your account as soon as possible. Our compliance officer will notify
             you by email upon successful verification and a dedicated trading
             group will be set up for you. Should you have any questions, please
-            contact us at contact@escrowblockhk.com. Please note the minimum
+            contact us at contact@escrowblock.com. Please note the minimum
             deposit or withdrawal size is $10,000
           </div>
           {errors && Object.keys(errors).length !== 0 && <div style={{
@@ -221,7 +194,7 @@ export default function RegisterIndividual() {
             paddingTop: "10px",
             backgroundColor: "#ff8080",
             borderRadius: "5px"
-          }}><h3>Error Occurred{
+          }}><h3>Error Occurred {
             exist && (<span>: {exist.message} <Link to="/login">Login</Link></span>)
           }
           {
@@ -281,18 +254,8 @@ export default function RegisterIndividual() {
               name="preferredCommunication"
               placeholder="Preferred Communication"
               option1={<option value="Telegram" />}
-              option2={<option value="Email" />}
-              option3={<option value="WhatsApp" />}
+              value="Telegram"
               required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="aliasName"
-              placeholder="Alias/Other/Former Name(s)(if any):"
               type="text"
               onChange={onChangeHandler}
               errors={errors}
@@ -300,30 +263,17 @@ export default function RegisterIndividual() {
           </div>
         </div>
         <div className="register__section__forms__content__inputs__one">
-          <SelectBox
+          <SelectDropdown
             name="gender"
             placeholder="Gender"
             required={true}
-            option1={<option value="Male" />}
-            option2={<option value="Female" />}
             type="text"
             onChange={onChangeHandler}
             errors={errors}
-          />
-        </div>
-        <div
-          style={{ marginTop: 8 }}
-          className="register__section__forms__content__inputs__one"
-        >
-          <InputBox
-            // value="2017/06/01"
-            name="date"
-            placeholder="date"
-            required={true}
-            type="date"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
+          >
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </SelectDropdown>
         </div>
         <div className="register__section__forms__content__inputs__two">
           <div className="register__section__forms__content__inputs__one">
@@ -340,28 +290,8 @@ export default function RegisterIndividual() {
               errors={errors}
             />
           </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="passportOrId"
-              placeholder="Your Passport or ID number"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
         </div>
         <div className="register__section__forms__content__inputs__two">
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="mobileNumber"
-              placeholder="Mobile Number"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
           <div className="register__section__forms__content__inputs__one">
             <InputBox
               name="telegram"
@@ -372,33 +302,13 @@ export default function RegisterIndividual() {
             />
           </div>
         </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="streetAddress"
-            placeholder="Street Address"
-            required={true}
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
         <div className="register__section__forms__content__inputs__two">
           <div className="register__section__forms__content__inputs__one">
             <InputBox
-              name="city"
-              placeholder="City"
+              name="dateOfBirth"
+              placeholder="Date Of Birth"
               required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="country"
-              placeholder="Country"
-              required={true}
-              type="text"
+              type="date"
               onChange={onChangeHandler}
               errors={errors}
             />
@@ -406,97 +316,65 @@ export default function RegisterIndividual() {
         </div>
         <div className="register__section__forms__content__inputs__two">
           <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="state"
-              placeholder="State/Province/Region"
+            <PhoneInput
+              name="phoneNumber"
+              placeholder="Phone Number"
               required={true}
-              type="text"
               onChange={onChangeHandler}
               errors={errors}
             />
           </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="zipCode"
-              placeholder="Zip or Post Code"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="socialSecurityNumber"
-            placeholder="Social Security Number (if applicable):"
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
         </div>
         <div className="register__section__forms__content__inputs__two">
           <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="grossAnnualIncome"
-              placeholder="Gross Annual Income"
-              required={true}
-              variant="select"
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
+            <SelectDropdown
               name="employmentStatus"
               placeholder="Employment Status"
               required={true}
-              variant="select"
               type="text"
               onChange={onChangeHandler}
               errors={errors}
-            />
+            >
+              <option value="Employed">Employed</option>
+              <option value="Self Employed">Self Employed</option>
+              <option value="Unemployed">Unemployed</option>
+              <option value="Student">Student</option>
+            </SelectDropdown>
           </div>
         </div>
         <div className="register__section__forms__content__inputs__two">
           <div className="register__section__forms__content__inputs__one">
-            <InputBox
+            <SelectDropdown
+              name="sourceOfFunds"
+              placeholder="Source Of Funds"
+              type="text"
+              onChange={onChangeHandler}
+              errors={errors}
+            >
+              <option value="Retained Earnings">Retained Earnings</option>
+              <option value="Dept Capital">Dept Capital</option>
+              <option value="Equity Capital">Equity Capital</option>
+            </SelectDropdown>
+          </div>
+        </div>
+        <div className="register__section__forms__content__inputs__two">
+          <div className="register__section__forms__content__inputs__one">
+            <SelectDropdown
               name="occupation"
               placeholder="Occupation"
               required={true}
-              variant="select"
               type="text"
               onChange={onChangeHandler}
               errors={errors}
-            />
+            >
+              {getOccupations()}
+            </SelectDropdown>
           </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="companyName"
-              placeholder="Name of Your Company/Employer"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="sourceOfFunds"
-            placeholder="Source of Funds              "
-            required={true}
-            variant="select"
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
         </div>
         <div className="register__section__forms__content__inputs__one">
           <InputBox
             name="purposeOfEscrowAccount"
-            placeholder="Please state your Purpose of Opening an Escrowblockhk account              "
+            placeholder="Please state your Purpose of Opening an Escrowblock account              "
             required={true}
             type="text"
             onChange={onChangeHandler}
@@ -514,165 +392,8 @@ export default function RegisterIndividual() {
             errors={errors}
           />
         </div>
-        <div className="register__section__forms__content__inputs__two">
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="accountHolderName"
-              placeholder="Account Holder Name"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="fullBeneficiaryAddress"
-              placeholder="Full Beneficiary Address"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <div className="register__section__forms__content__inputs__two">
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="bankName"
-              placeholder="Bank Name"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="fullBankAddress"
-              placeholder="Full Bank Address"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <div className="register__section__forms__content__inputs__two">
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="accountNumber"
-              placeholder="Account Number"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-          <div className="register__section__forms__content__inputs__one">
-            <InputBox
-              name="routingNumber"
-              placeholder="Routing Number (ABA) (if any)"
-              required={true}
-              type="text"
-              onChange={onChangeHandler}
-              errors={errors}
-            />
-          </div>
-        </div>
         <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="intermediaryBank"
-            placeholder="Is There an Intermediary Bank?"
-            required={true}
-            variant="select"
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="yearsOfExperience"
-            placeholder="Years of experience trading digital/crypto assets"
-            required={true}
-            variant="select"
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="tradingAccountControl"
-            placeholder="Will any person other than the applicant of this account have control or manage the trading account?"
-            required={true}
-            variant="select"
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
-            name="hearAboutUs"
-            placeholder="How did you hear about us?"
-            required={true}
-            type="text"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <div style={{ marginBottom: 14 }}>
-            Passport ID copy (for all nominated persons)
-          </div>
-          <InputBox
-            name="passportIdCopy"
-            placeholder="Passport ID copy (for all nominated persons)"
-            required={true}
-            type="file"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <div style={{ marginBottom: 14 }}>Proof of Address</div>
-          <InputBox
-            name="proofOfAddress"
-            placeholder="Proof of Address"
-            required={true}
-            type="file"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <div style={{ marginBottom: 14 }}>Bank Statement</div>
-          <InputBox
-            name="bankStatement"
-            placeholder="Bank Statement"
-            required={true}
-            type="file"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <div style={{ marginBottom: 14 }}>
-            Attach a photo of yourself holding your ID card close to your face
-          </div>
-          <InputBox
-            name="photo"
-            placeholder="Attach a photo of yourself holding your ID card close to your face"
-            required={true}
-            type="file"
-            onChange={onChangeHandler}
-            errors={errors}
-          />
-        </div>
-        <div className="register__section__forms__content__inputs__one">
-          <InputBox
+          <PasswordInputBox
             name="password"
             placeholder="Password"
             required={true}
@@ -682,7 +403,7 @@ export default function RegisterIndividual() {
           />
         </div>{" "}
         <div className="register__section__forms__content__inputs__one">
-          <InputBox
+          <PasswordInputBox
             name="confirmPassword"
             placeholder="Confirm Password"
             required={true}
@@ -712,4 +433,106 @@ export default function RegisterIndividual() {
       </form>
     </>
   );
+}
+
+function getOccupations(){
+  return (
+    <>
+      <option value="">-- select an occupation --</option>
+    <optgroup label="Healthcare Practitioners and Technical Occupations:">
+      <option value="Chiropractor">-  Chiropractor</option>
+      <option value="Dentist">-  Dentist</option>
+      <option value="Dietitian or Nutritionist">-  Dietitian or Nutritionist</option>
+      <option value="Optometrist">-  Optometrist</option>
+      <option value="Pharmacist">-  Pharmacist</option>
+      <option value="Physician">-  Physician</option>
+      <option value="Physician Assistant">-  Physician Assistant</option>
+      <option value="Podiatrist">-  Podiatrist</option>
+      <option value="Registered Nurse">-  Registered Nurse</option>
+      <option value="Therapist">-  Therapist</option>
+      <option value="Veterinarian">-  Veterinarian</option>
+      <option value="Health Technologist or Technician">-  Health Technologist or Technician</option>
+      <option value="Other Healthcare Practitioners and Technical Occupation">-  Other Healthcare Practitioners and Technical Occupation</option>
+    </optgroup>
+    <optgroup label="Healthcare Support Occupations:">
+      <option value="Nursing, Psychiatric, or Home Health Aide">-  Nursing, Psychiatric, or Home Health Aide</option>
+      <option value="Occupational and Physical Therapist Assistant or Aide">-  Occupational and Physical Therapist Assistant or Aide</option>
+      <option value="Other Healthcare Support Occupation">-  Other Healthcare Support Occupation</option>
+    </optgroup>
+    <optgroup label="Business, Executive, Management, and Financial Occupations:">
+      <option value="Chief Executive">-  Chief Executive</option>
+      <option value="General and Operations Manager">-  General and Operations Manager</option>
+      <option value="Advertising, Marketing, Promotions, Public Relations, and Sales Manager">-  Advertising, Marketing, Promotions, Public Relations, and Sales Manager</option>
+      <option value="Operations Specialties Manager (e.g., IT or HR Manager)">-  Operations Specialties Manager (e.g., IT or HR Manager)</option>
+      <option value="Construction Manager">-  Construction Manager</option>
+      <option value="Engineering Manager">-  Engineering Manager</option>
+      <option value="Accountant, Auditor">-  Accountant, Auditor</option>
+      <option value="Business Operations or Financial Specialist">-  Business Operations or Financial Specialist</option>
+      <option value="Business Owner">-  Business Owner</option>
+      <option value="Other Business, Executive, Management, Financial Occupation">-  Other Business, Executive, Management, Financial Occupation</option>
+    </optgroup>
+    <optgroup label="Architecture and Engineering Occupations:">
+      <option value="Architect, Surveyor, or Cartographer">-  Architect, Surveyor, or Cartographer</option>
+      <option value="Engineer">-  Engineer</option>
+      <option value="Other Architecture and Engineering Occupation">-  Other Architecture and Engineering Occupation</option>
+    </optgroup>
+    <optgroup label="Education, Training, and Library Occupations:">
+      <option value="Postsecondary Teacher (e.g., College Professor)">-  Postsecondary Teacher (e.g., College Professor)</option>
+      <option value="Primary, Secondary, or Special Education School Teacher">-  Primary, Secondary, or Special Education School Teacher</option>
+      <option value="Other Teacher or Instructor">-  Other Teacher or Instructor</option>
+      <option value="Other Education, Training, and Library Occupation">-  Other Education, Training, and Library Occupation</option>
+    </optgroup>
+    <optgroup label="Other Professional Occupations:">
+      <option value="Arts, Design, Entertainment, Sports, and Media Occupations">-  Arts, Design, Entertainment, Sports, and Media Occupations</option>
+      <option value="Computer Specialist, Mathematical Science">-  Computer Specialist, Mathematical Science</option>
+      <option value="Counselor, Social Worker, or Other Community and Social Service Specialist">-  Counselor, Social Worker, or Other Community and Social Service Specialist</option>
+      <option value="Lawyer, Judge">-  Lawyer, Judge</option>
+      <option value="Life Scientist (e.g., Animal, Food, Soil, or Biological Scientist, Zoologist)">-  Life Scientist (e.g., Animal, Food, Soil, or Biological Scientist, Zoologist)</option>
+      <option value="Physical Scientist (e.g., Astronomer, Physicist, Chemist, Hydrologist)">-  Physical Scientist (e.g., Astronomer, Physicist, Chemist, Hydrologist)</option>
+      <option value="Religious Worker (e.g., Clergy, Director of Religious Activities or Education)">-  Religious Worker (e.g., Clergy, Director of Religious Activities or Education)</option>
+      <option value="Social Scientist and Related Worker">-  Social Scientist and Related Worker</option>
+      <option value="Other Professional Occupation">-  Other Professional Occupation</option>
+    </optgroup>
+    <optgroup label="Office and Administrative Support Occupations:">
+      <option value="Supervisor of Administrative Support Workers">-  Supervisor of Administrative Support Workers</option>
+      <option value="Financial Clerk">-  Financial Clerk</option>
+      <option value="Secretary or Administrative Assistant">-  Secretary or Administrative Assistant</option>
+      <option value="Material Recording, Scheduling, and Dispatching Worker">-  Material Recording, Scheduling, and Dispatching Worker</option>
+      <option value="Other Office and Administrative Support Occupation">-  Other Office and Administrative Support Occupation</option>
+    </optgroup>
+    <optgroup label="Services Occupations:">
+      <option value="Protective Service (e.g., Fire Fighting, Police Officer, Correctional Officer)">-  Protective Service (e.g., Fire Fighting, Police Officer, Correctional Officer)</option>
+      <option value="Chef or Head Cook">-  Chef or Head Cook</option>
+      <option value="Cook or Food Preparation Worker">-  Cook or Food Preparation Worker</option>
+      <option value="Food and Beverage Serving Worker (e.g., Bartender, Waiter, Waitress)">-  Food and Beverage Serving Worker (e.g., Bartender, Waiter, Waitress)</option>
+      <option value="Building and Grounds Cleaning and Maintenance">-  Building and Grounds Cleaning and Maintenance</option>
+      <option value="Personal Care and Service (e.g., Hairdresser, Flight Attendant, Concierge)">-  Personal Care and Service (e.g., Hairdresser, Flight Attendant, Concierge)</option>
+      <option value="Sales Supervisor, Retail Sales">-  Sales Supervisor, Retail Sales</option>
+      <option value="Retail Sales Worker">-  Retail Sales Worker</option>
+      <option value="Insurance Sales Agent">-  Insurance Sales Agent</option>
+      <option value="Sales Representative">-  Sales Representative</option>
+      <option value="Real Estate Sales Agent">-  Real Estate Sales Agent</option>
+      <option value="Other Services Occupation">-  Other Services Occupation</option>
+    </optgroup>
+    <optgroup label="Agriculture, Maintenance, Repair, and Skilled Crafts Occupations:">
+      <option value="Construction and Extraction (e.g., Construction Laborer, Electrician)">-  Construction and Extraction (e.g., Construction Laborer, Electrician)</option>
+      <option value="Farming, Fishing, and Forestry">-  Farming, Fishing, and Forestry</option>
+      <option value="Installation, Maintenance, and Repair">-  Installation, Maintenance, and Repair</option>
+      <option value="Production Occupations">-  Production Occupations</option>
+      <option value="Other Agriculture, Maintenance, Repair, and Skilled Crafts Occupation">-  Other Agriculture, Maintenance, Repair, and Skilled Crafts Occupation</option>
+    </optgroup>
+    <optgroup label="Transportation Occupations:">
+      <option value="Aircraft Pilot or Flight Engineer">-  Aircraft Pilot or Flight Engineer</option>
+      <option value="Motor Vehicle Operator (e.g., Ambulance, Bus, Taxi, or Truck Driver)">-  Motor Vehicle Operator (e.g., Ambulance, Bus, Taxi, or Truck Driver)</option>
+      <option value="Other Transportation Occupation">-  Other Transportation Occupation</option>
+    </optgroup>
+    <optgroup label="Other Occupations:">
+      <option value="Military">-  Military</option>
+      <option value="Homemaker">-  Homemaker</option>
+      <option value="Other Occupation">-  Other Occupation</option>
+      <option value="Don't Know">-  Don't Know</option>
+      <option value="Not Applicable">-  Not Applicable</option>
+    </optgroup>
+    </>
+  )
 }

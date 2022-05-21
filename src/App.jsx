@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import ForgotPassword from "./screens/ForgotPassword";
 import Dashboard from "./screens/Dashboard";
 import NewPassword from "./screens/NewPassword";
+import Welcome from "./screens/Welcome";
 
 export default function App() {
   const [noHeaderFooter, setNoHeaderFooter] = useState(false);
@@ -47,6 +48,7 @@ export default function App() {
           path="/new-password/:email/:token"
           element={<NewPassword setNoHeaderFooter={setNoHeaderFooter} />}
         />
+        <Route path="/welcome/:firstName" element={<Welcome setNoHeaderFooter={setNoHeaderFooter}/>} />
       </Routes>
       {noHeaderFooter ? null : <Footer />}
     </>
